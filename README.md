@@ -56,6 +56,22 @@ sudo curtin install
 - If using an ISO with **autoinstall support**, add `autoinstall` to the boot parameters.
 - The system will **automatically install Ubuntu** using the YAML configuration.
 
+### **5️⃣ Serve YAML File Over Network**
+
+To serve the `autoinstall.yaml` file on another system, run a simple Python HTTP server:
+
+```bash
+python3 -m http.server 8000 --directory /path/to/your/repo
+```
+
+On the client system, set the autoinstall configuration source:
+
+```bash
+wget http://<server-ip>:8000/autoinstall.yaml -O /var/lib/curtin/autoinstall.yaml
+```
+
+Replace `<server-ip>` with the IP address of the system hosting the file.
+
 ---
 
 ## 🔧 Customization

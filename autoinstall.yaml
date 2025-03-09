@@ -1,0 +1,37 @@
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: ubuntu-desktop
+    username: sadmin
+    password: "$y$j9T$5j7q5TCjhkyOURiwdRc4s1$J4qDUfWoZNxlbmhrUKX.PFszTbVX5u5/7Gcufq8F2Z7" # Replace with an actual hashed password (use `mkpasswd -m sha-512`)
+  locale: en_US.UTF-8
+  keyboard:
+    layout: us
+  timezone: Asia/Kolkata
+  network:
+    preserve_sources: true # Keeps the network settings from the boot environment
+  storage:
+    wipe: true # Wipes all disks
+    layout:
+      name: lvm # Uses entire disk with LVM
+  updates: security
+  packages:
+    - openssh-server
+    - curl
+    - git
+    - htop
+    - vim
+    - gnome-shell
+    - gnome-terminal
+  ssh:
+    install-server: true
+    allow-pw: true
+  user-data:
+    disable_root: false
+    chpasswd:
+      expire: false
+  late-commands:
+    - curtin in-target -- apt update && apt upgrade -y
+    - curtin in-target -- systemctl enable ssh
+    - echo "Installation Complete!" > /target/root/installation.log
